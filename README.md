@@ -17,4 +17,4 @@
 ## TryHackMe
 * [**Bounty Hacker**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/TryHackMe/Bounty-Hacker.md)
 * [**Pickle Rick**]
-* [**RootMe**]
+* [**RootMe**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/TryHackMe/RootMe.md)
