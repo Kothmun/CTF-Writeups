@@ -49,7 +49,7 @@ Upon accessing the /uploads/ directory, we see that it is empty. In the /panel/ 
 ![RootMe](../Images/thm_rootme_4.png)
 
 I went to the following website to get the php reverse shell code (file):  
-http://pentestmonkey.net/tools/web-shells/php-reverse-shell
+http://pentestmonkey.net/tools/web-shells/php-reverse-shell  
 As shown in the instructions, you should download the file, extract it and change the following fields on the php-reverse-shell.php file, based on your host machine’s IP in the THM network, (in my case, 10.6.66.7), and your port of choice (you can leave the default port):  
 > $ip = ‘127.0.0.1’;
 > $port = 1234;
@@ -104,5 +104,5 @@ Next up, we can search for the “root.txt” file:
 And then we can finally read the file and get the last flag!
 > cat /root/root.txt
 
-**hat’s all folks!**  
+**That’s all folks!**  
 Thanks for reading and keep hacking!
