@@ -6,7 +6,7 @@
 * [**Armageddon**]
 * [**Bastion**]
 * [**Heist**]
-* [**Knife**]
+* [**Knife**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Knife.md)
 * [**Oopsie**]
 * [**OpenAdmin**]
 * [**Shocker**]
