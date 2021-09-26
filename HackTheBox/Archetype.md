@@ -111,7 +111,7 @@ Now we just need to read the root.txt file at the administrator’s desktop:
 
 ![Archetype](../Images/htb_archetype_13.png)
 
-That’s all for now!  
+**That’s all for now!**  
 We’ll keep in mind that some of the info collected (like credentials, folders…) can be useful in the next 8 labs of the ‘Starting Point’ path.  
 Thanks for reading and keep hacking!  
 
