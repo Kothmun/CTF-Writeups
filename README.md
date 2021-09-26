@@ -1,7 +1,7 @@
 # CTF Writeups
 
 ## Hack The Box
-* [**Active**]
+* [**Active**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Active.md)
 * [**Archetype**]
 * [**Armageddon**]
 * [**Bastion**]
