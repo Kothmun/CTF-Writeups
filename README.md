@@ -2,7 +2,7 @@
 
 ## Hack The Box
 * [**Active**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Active.md)
-* [**Archetype**]
+* [**Archetype**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Archetype.md)
 * [**Armageddon**]
 * [**Bastion**]
 * [**Heist**]
