@@ -3,7 +3,7 @@ This is the first box of the ‘Starting Point’ path from HackTheBox (a series
 
 ![Archetype](../Images/htb_archetype_1.png)
 
-**Tools: nmap, smbclient, netcat, Impacket's mssqlclient.py and psexec.py.**
+**Tools: nmap, smbclient, netcat, Impacket (mssqlclient.py and psexec.py).**
 
 We begin with a scan using nmap (this machine’s IP is 10.10.10.27):
 > nmap -n -sC -sV -Pn -T4 10.10.10.27
