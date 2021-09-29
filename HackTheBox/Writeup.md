@@ -5,8 +5,8 @@ This is an easy, pretty fun box. The entire process uses some interesting concep
 
 **Tools: nmap, searchsploit, hashcat, pspy, openssl.**
 
-We begin with a quick nmap scan of the box:
-> nmap -Pn -sC -sV -p- -T4 --min-rate=10000 10.10.10.138
+We begin with a quick nmap scan of the box:  
+`nmap -Pn -sC -sV -p- -T4 --min-rate=10000 10.10.10.138`
 
 ![Writeup](../Images/htb_writeup_1.png)
 
