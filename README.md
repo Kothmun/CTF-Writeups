@@ -5,6 +5,7 @@
 * [**Archetype**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Archetype.md)
 * [**Armageddon**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Armageddon.md)
 * [**Bastion**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Bastion.md)
+* [**Cap**]() - SOON
 * [**Heist**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Heist.md)
 * [**Knife**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Knife.md)
 * [**Oopsie**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Oopsie.md)
