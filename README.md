@@ -14,8 +14,3 @@
 * [**Traverxec**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Traverxec.md)
 * [**Vaccine**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Vaccine.md)
 * [**Writeup**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/HackTheBox/Writeup.md)
-
-## TryHackMe
-* [**Bounty Hacker**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/TryHackMe/Bounty-Hacker.md)
-* [**Pickle Rick**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/TryHackMe/Pickle-Rick.md)
-* [**RootMe**](https://github.com/rafaelbaldasso/CTF-Writeups/blob/main/TryHackMe/RootMe.md)
