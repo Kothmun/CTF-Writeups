@@ -1,5 +1,4 @@
 # Cap
-This is probably the easiest HTB machine at the moment of its release/retirement, the entire process is pretty straightforward but fun.  
 
 ![Cap](../Images/htb_cap_1.png)
 
@@ -34,6 +33,3 @@ Our user doesn't have root access, but after 'blindly' testing a quick python pr
 `python3 -c 'import os; os.setuid(0);os.system("/bin/sh")'`  
 
 ![Cap](../Images/htb_cap_8.png)
-
-**That's all folks!**  
-Thanks for reading and keep hacking!
