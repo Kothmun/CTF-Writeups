@@ -1,5 +1,4 @@
 # Vaccine
-The 3rd box of the Starting Point - explores the concepts of cracking passwords/hashes and SQL Injection.
 
 ![Vaccine](../Images/htb_vaccine_1.png)
 
@@ -104,6 +103,3 @@ And then you can read the root.txt file:
 `cat /root/root.txt`
 
 ![Vaccine](../Images/htb_vaccine_14.png)
-
-**Thats it, another box pwned!**  
-Thanks for reading and keep hacking!
