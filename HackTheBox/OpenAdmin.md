@@ -1,5 +1,4 @@
 # OpenAdmin
-This box can be quite a pain for beginners to do, but the troubleshooting part is enough to learn some useful new tricks.
 
 ![OpenAdmin](../Images/htb_openadmin_1.png)
 
@@ -167,6 +166,4 @@ Press enter and you'll be root. Now just grab the root flag at /root/root.txt an
 
 ![OpenAdmin](../Images/htb_openadmin_19.png)
 
-Thats it, a very extensive box that requires quite a bit of troubleshooting and some very specific knowledge, but it's a great learning experience!  
-
-Thanks for reading and keep hacking!
+Thats it, a very extensive box that requires quite a bit of troubleshooting and some very specific knowledge, but it's a great learning experience! 
