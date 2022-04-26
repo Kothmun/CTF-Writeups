@@ -1,5 +1,4 @@
 # Writeup
-This is an easy, pretty fun box. The entire process uses some interesting concepts to get access and escalate privileges.
 
 ![Writeup](../Images/htb_writeup_0.png)
 
@@ -67,6 +66,3 @@ One interesting trick is to create a new user, with root permissions. We can use
 Next up, in a new terminal tab, log into SSH one again and, if everything works, we'll switch to our newly created user and we'll be root.
 
 ![Writeup](../Images/htb_writeup_18.png)
-
-**That's it folks!**  
-Thanks for reading and keep hacking!
