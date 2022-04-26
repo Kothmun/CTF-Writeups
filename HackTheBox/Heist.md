@@ -1,5 +1,4 @@
 # Heist
-A Windows box that abuses data exposure and misconfiguration to gain access, then extensive enumeration to escalate privileges.
 
 ![Heist](../Images/htb_heist_1.png)
 
@@ -135,7 +134,4 @@ Sure thing. Now we can simply use Impacket's psexec.py now and login using the c
 
 ![Heist](../Images/htb_heist_23.png)
 
-Then navigate to the Administrator's desktop and grab the root flag!  
-
-**That's all for this box.**  
-Thanks for reading and keep hacking!
+Then navigate to the Administrator's desktop and grab the root flag!
