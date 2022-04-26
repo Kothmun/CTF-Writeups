@@ -1,5 +1,4 @@
 # Oopsie
-This is the second box of the ‘Starting Point’ path from HackTheBox (a series of 9 boxes rated Very Easy).
 
 ![Oopsie](../Images/htb_oopsie_1.png)
 
@@ -149,6 +148,3 @@ mc@F1l3ZilL4
 ```
 
 ![Oopsie](../Images/htb_oopsie_25.png)
-
-**That’s all for now!**  
- We’ll keep in mind that some of the info collected (like credentials, folders…) can be useful in the next 7 labs of the ‘Starting Point’ path. Thanks for reading and keep hacking!
