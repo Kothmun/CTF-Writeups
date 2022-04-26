@@ -1,5 +1,4 @@
 # Archetype
-This is the first box of the ‘Starting Point’ path from HackTheBox (a series of 9 boxes rated Very Easy).
 
 ![Archetype](../Images/htb_archetype_1.png)
 
@@ -114,10 +113,6 @@ Now we just need to read the root.txt file at the administrator’s desktop:
 ![Archetype](../Images/htb_archetype_12.png)
 
 ![Archetype](../Images/htb_archetype_13.png)
-
-**That’s all for now!**  
-We’ll keep in mind that some of the info collected (like credentials, folders…) can be useful in the next 8 labs of the ‘Starting Point’ path.  
-Thanks for reading and keep hacking!  
 
 **Some useful resources to understand the procedures used to root this box:**  
 
