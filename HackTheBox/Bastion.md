@@ -1,5 +1,4 @@
 # Bastion
-This is an Easy box, that explores SMB to gain access and a critical vulnerability to escalate privileges.
 
 ![Bastion](../Images/htb_bastion_1.png)
 
@@ -95,6 +94,3 @@ And there it is, the Administrator password. We can try to use SSH and see if we
 ![Bastion](../Images/htb_bastion_18.png)
 
 That's it, we're Admin, so we can just grab the root flag from the Desktop directory.  
-
-**That's all folks!**  
-Thanks for reading and keep hacking!
