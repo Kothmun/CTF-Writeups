@@ -1,5 +1,4 @@
 # Traverxec
-An easy box, uses basic concepts to gain access and escalate privileges.
 
 ![Traverxec](../Images/htb_traverxec_1.png)
 
@@ -76,7 +75,4 @@ Looking for a privesc at [GTFObins](https://gtfobins.github.io/gtfobins/journalc
 
 ![Traverxec](../Images/htb_traverxec_14.png)
 
-And we have a root shell! Now just grab the root flag from /root.  
-
-**That's it folks!**  
-Thanks for reading and keep hacking!
+And we have a root shell! Now just grab the root flag from /root.
