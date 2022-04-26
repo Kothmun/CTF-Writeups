@@ -82,6 +82,3 @@ There you can see the 'Administrator' password. Now we can simply use smbclient 
 `smbclient //10.10.10.100/C$ -U active.htb/Administrator`
 
 ![Active](../Images/htb_active_13.png)
-
-**That's all for this box folks!**  
-Thanks for reading and keep hacking!
