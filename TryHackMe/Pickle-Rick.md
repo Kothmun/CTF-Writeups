@@ -1,7 +1,4 @@
 # Pickle Rick
-This is a truly fun, easy box, great for beginners, and quite entertaining for 'Rick and Morty' fans.
-
-![Pickle-Rick](../Images/thm_pickle-rick_1.png)
 
 **Tools: nmap, dirsearch, netcat.**
 
@@ -69,6 +66,3 @@ Now, after some previous enumeration, I've seen that inside the /home/ubuntu the
 `cat /home/ubuntu/.bash_history`
 
 Another way of doing this is by reading the txt file from the '/root' directory.
-
-**That's all for this box!**  
-Thanks for reading and keep hacking!
