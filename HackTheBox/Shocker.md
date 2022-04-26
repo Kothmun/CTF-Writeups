@@ -1,5 +1,4 @@
 # Shocker
-In this writeup we'll pwn the Shocker box, an Easy challenge that uses a very well-known vulnerability.
 
 ![Shocker](../Images/htb_shocker_1.png)
 
@@ -48,6 +47,4 @@ Now we force metasploit to give us a local shell, then we check for the files we
 
 ![Shocker](../Images/htb_shocker_10.png)
 
-Thats it, we're root and the root flag is ours!   
-
-Thanks for reading and keep hacking!
+Thats it, we're root and the root flag is ours!
