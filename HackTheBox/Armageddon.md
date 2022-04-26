@@ -1,5 +1,4 @@
 # Armageddon
-This box begins with an easy entry-point; through enumeration we get access to a database; and the final exploitation is a pretty fun learning experience.
 
 ![Armageddon](../Images/htb_armageddon_1.png)
 
@@ -110,6 +109,3 @@ And then run the package installer using the command provided at the GTFObins pa
 If everything works correctly - it might take a few seconds - you'll get your root flag at the end of the text output, just like shown below.
 
 ![Armageddon](../Images/htb_armageddon_15.png)
-
-**That's it for this box!**  
-Thanks for reading and keep hacking!
