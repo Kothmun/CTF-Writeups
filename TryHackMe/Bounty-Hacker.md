@@ -1,7 +1,4 @@
 # Bounty Hacker
-This is a fun, quick and rated easy box, very beginner friendly.
-
-![Bounty-Hacker](../Images/thm_bounty_hacker_1.png)
 
 **Tools: nmap, hydra.**
 
@@ -55,6 +52,3 @@ We see that we can run the binary *‘tar’* as root. We can check at [**GTFOBi
 ![Bounty-Hacker](../Images/thm_bounty_hacker_7.png)
 
 Running the command we get root shell and can quickly grab the flag from the /root directory.
-
-**That’s all folks!**  
-Thanks for reading and keep hacking!
