@@ -1,7 +1,4 @@
 # RootMe
-This is a fun starter challenge from TryHackMe, it’s a free room, rated Easy. I’ll be showing the step-by-step and explain the process.
-
-![RootMe](../Images/thm_rootme_1.png)
 
 **Tools: nmap, gobuster, netcat.**
 
@@ -105,6 +102,3 @@ Next up, we can search for the “root.txt” file:
 
 And then we can finally read the file and get the last flag!  
 `cat /root/root.txt`
-
-**That’s all folks!**  
-Thanks for reading and keep hacking!
