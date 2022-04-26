@@ -1,5 +1,4 @@
 # Knife
-This is an Easy box, utilizes a recently famous vulnerability to gain access through RCE.
 
 ![Knife](../Images/htb_knife_1.png)
 
@@ -54,7 +53,4 @@ sudo knife /home/james/rb.rb
 
 ![Knife](../Images/htb_knife_9.png)
 
-And the root flag is ours..
-
-**That's all for this one!**  
-Thanks for reading and keep hacking!
+And the root flag is ours.
